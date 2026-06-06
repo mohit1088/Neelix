@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neelix — Software Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2563EB;
+    --cyan: #22D3EE;
+    --purple: #7C3AED;
+    --violet: #A855F7;
+    --dark: #0A0D1A;
+    --dark2: #0F1428;
+    --dark3: #141832;
+    --card: #141B35;
+    --border: rgba(99,120,255,0.18);
+    --text: #E8EAFF;
+    --muted: #7B85B4;
+    --grad1: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #22D3EE 100%);
+    --grad2: linear-gradient(135deg, #22D3EE, #2563EB);
+    --grad3: linear-gradient(135deg, #7C3AED, #A855F7);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* BG mesh */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 20%, rgba(37,99,235,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(124,58,237,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(34,211,238,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+    background: rgba(10,13,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--grad1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .logo-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: #fff;
+  }
+
+  .logo-text span { background: var(--grad2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--grad1);
+    color: #fff;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 100px 5% 80px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(37,99,235,0.12);
+    border: 1px solid rgba(37,99,235,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(46px, 8vw, 96px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .grad { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--muted);
+    max-width: 540px;
+    margin: 18px auto 40px;
+    line-height: 1.6;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--grad1);
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 30px rgba(37,99,235,0.35);
+    text-decoration: none;
+  }
+
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(37,99,235,0.5); }
+
+  .btn-ghost {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-ghost:hover { border-color: rgba(99,120,255,0.5); background: rgba(99,120,255,0.07); }
+
+  /* STATS */
+  .stats {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: rgba(20,24,50,0.6);
+    margin: 0 0 80px;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .stat-item {
+    flex: 1;
+    max-width: 200px;
+    text-align: center;
+    padding: 28px 20px;
+    border-right: 1px solid var(--border);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    background: var(--grad2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* SECTION */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 0 5% 80px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .section-title .grad { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 460px;
+    margin: 14px auto 0;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* SOFTWARE GRID */
+  .software-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .software-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position: relative;
+  }
+
+  .software-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--grad1);
+    opacity: 0;
+    transition: opacity 0.25s;
+    border-radius: 16px;
+    z-index: 0;
+  }
+
+  .software-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(37,99,235,0.25);
+    border-color: rgba(99,120,255,0.4);
+  }
+
+  .software-card:hover::before { opacity: 0.04; }
+
+  .card-header {
+    padding: 24px 24px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .card-icon.blue { background: linear-gradient(135deg, rgba(37,99,235,0.3), rgba(34,211,238,0.15)); border: 1px solid rgba(37,99,235,0.3); }
+  .card-icon.purple { background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(168,85,247,0.15)); border: 1px solid rgba(124,58,237,0.3); }
+  .card-icon.cyan { background: linear-gradient(135deg, rgba(34,211,238,0.2), rgba(37,99,235,0.15)); border: 1px solid rgba(34,211,238,0.3); }
+  .card-icon.orange { background: linear-gradient(135deg, rgba(251,146,60,0.2), rgba(251,191,36,0.1)); border: 1px solid rgba(251,146,60,0.3); }
+  .card-icon.green { background: linear-gradient(135deg, rgba(52,211,153,0.2), rgba(16,185,129,0.1)); border: 1px solid rgba(52,211,153,0.3); }
+  .card-icon.pink { background: linear-gradient(135deg, rgba(244,114,182,0.2), rgba(236,72,153,0.1)); border: 1px solid rgba(244,114,182,0.3); }
+
+  .card-meta { flex: 1; }
+
+  .card-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .card-category {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .badge {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .badge-new { background: rgba(34,211,238,0.15); color: var(--cyan); border: 1px solid rgba(34,211,238,0.3); }
+  .badge-free { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.25); }
+  .badge-pro { background: rgba(168,85,247,0.15); color: var(--violet); border: 1px solid rgba(168,85,247,0.3); }
+  .badge-soon { background: rgba(251,146,60,0.12); color: #FB923C; border: 1px solid rgba(251,146,60,0.25); }
+
+  .card-body {
+    padding: 16px 24px 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .card-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .feature-tag {
+    font-size: 11px;
+    color: rgba(200,210,255,0.6);
+    background: rgba(99,120,255,0.08);
+    border: 1px solid rgba(99,120,255,0.14);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-size {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .card-size span { color: var(--text); font-weight: 500; }
+
+  .download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--grad1);
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+
+  .download-btn:hover { opacity: 0.85; transform: scale(1.04); }
+
+  .download-btn.disabled {
+    background: rgba(99,120,255,0.12);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* FEATURED (Printech) */
+  .featured-card {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    background: var(--card);
+    border: 1px solid rgba(37,99,235,0.3);
+    border-radius: 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+
+  .featured-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(37,99,235,0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .featured-left {
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .featured-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(37,99,235,0.15);
+    border: 1px solid rgba(37,99,235,0.3);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cyan);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .featured-left h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .featured-left h2 .grad { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .featured-left p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  .featured-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .feat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(200,210,255,0.8);
+  }
+
+  .feat-item::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    flex-shrink: 0;
+  }
+
+  .featured-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .featured-right {
+    background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    border-left: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(99,120,255,0.03) 20px,
+      rgba(99,120,255,0.03) 21px
+    );
+  }
+
+  .mockup-box {
+    width: 100%;
+    max-width: 280px;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .mockup-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: #FF5F57; }
+  .dot.y { background: #FFBD2E; }
+  .dot.g { background: #28CA41; }
+
+  .mockup-screen {
+    background: var(--dark3);
+    border-radius: 8px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .mockup-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: var(--grad1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .mockup-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--grad2);
+    margin-bottom: 8px;
+    animation: progress 3s ease-in-out infinite;
+  }
+
+  @keyframes progress {
+    0% { width: 20%; }
+    50% { width: 90%; }
+    100% { width: 20%; }
+  }
+
+  .mockup-rows { display: flex; flex-direction: column; gap: 6px; }
+  .mockup-row {
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(99,120,255,0.12);
+  }
+  .mockup-row:nth-child(2) { width: 70%; }
+  .mockup-row:nth-child(3) { width: 85%; }
+
+  /* FEATURES SECTION */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(99,120,255,0.35);
+    transform: translateY(-4px);
+  }
+
+  .feature-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+    background: rgba(37,99,235,0.12);
+    border: 1px solid rgba(37,99,235,0.2);
+  }
+
+  .feature-card h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* CTA */
+  .cta-section {
+    position: relative;
+    z-index: 1;
+    padding: 0 5% 100px;
+  }
+
+  .cta-box {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(124,58,237,0.12));
+    border: 1px solid rgba(99,120,255,0.25);
+    border-radius: 24px;
+    padding: 64px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(37,99,235,0.2), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-box h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cta-box h2 .grad { background: var(--grad1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .cta-box p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 36px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 12px;
+    max-width: 440px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .cta-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 18px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .cta-input::placeholder { color: var(--muted); }
+  .cta-input:focus { border-color: rgba(37,99,235,0.5); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 20px;
+  }
+
+  .footer-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: rgba(99,120,255,0.3); border-radius: 3px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-right { display: none; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .stats { flex-wrap: wrap; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); min-width: 140px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+
+  /* SEARCH BAR */
+  .search-wrap {
+    max-width: 480px;
+    margin: 0 auto 52px;
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 48px 13px 18px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus { border-color: rgba(37,99,235,0.4); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+  .search-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 0.4;
+  }
+
+  /* TABS */
+  .filter-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .filter-tab {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .filter-tab:hover { color: var(--text); border-color: rgba(99,120,255,0.35); }
+  .filter-tab.active { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.4); color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">N</div>
+    <span class="logo-text">NEELI<span>X</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#software">Software</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Get Started</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🚀 Innovate. Build. Elevate.</div>
+  <h1><span class="grad">NEELIX</span><br>Software Hub</h1>
+  <p class="hero-sub">Professional software solutions for every need. Download, install, and power up your workflow in seconds.</p>
+  <div class="hero-actions">
+    <a href="#software" class="btn-primary">
+      ⬇ Browse Software
+    </a>
+    <a href="#features" class="btn-ghost">
+      ✦ View Features
+    </a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <span class="stat-num">12+</span>
+    <span class="stat-label">Software Tools</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">50K+</span>
+    <span class="stat-label">Downloads</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">4.9★</span>
+    <span class="stat-label">Avg Rating</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">24/7</span>
+    <span class="stat-label">Support</span>
+  </div>
+</div>
+
+<!-- FEATURED: PRINTECH -->
+<section class="section" id="about">
+  <div class="featured-card">
+    <div class="featured-left">
+      <span class="featured-tag">⭐ Featured Product</span>
+      <h2><span class="grad">PRINTECH</span><br>Print Suite Pro</h2>
+      <p>Neelix's flagship printing software. Design, manage and print with professional-grade precision — from bulk labels to custom templates. Trusted by businesses across India.</p>
+      <div class="featured-features">
+        <div class="feat-item">Bulk Print Manager</div>
+        <div class="feat-item">Label Designer</div>
+        <div class="feat-item">PDF Export</div>
+        <div class="feat-item">Barcode Generator</div>
+        <div class="feat-item">Invoice Print</div>
+        <div class="feat-item">Multi-Printer Support</div>
+      </div>
+      <div class="featured-actions">
+        <a href="#" class="btn-primary" onclick="handleDownload('Printech')">⬇ Download Free</a>
+        <a href="#" class="btn-ghost">View Demo</a>
+      </div>
+    </div>
+    <div class="featured-right">
+      <div class="mockup-box">
+        <div class="mockup-header">
+          <div class="dot r"></div>
+          <div class="dot y"></div>
+          <div class="dot g"></div>
+        </div>
+        <div class="mockup-screen">
+          <div class="mockup-logo">PRINTECH</div>
+        </div>
+        <div class="mockup-bar"></div>
+        <div class="mockup-rows">
+          <div class="mockup-row"></div>
+          <div class="mockup-row"></div>
+          <div class="mockup-row"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL SOFTWARE -->
+<section class="section" id="software">
+  <div class="section-header">
+    <span class="section-tag">Our Collection</span>
+    <h2 class="section-title">All <span class="grad">Software</span></h2>
+    <p class="section-desc">Professional tools built for productivity, designed for everyone — from startups to enterprises.</p>
+  </div>
+
+  <div class="search-wrap">
+    <input class="search-input" placeholder="Search software..." oninput="filterSoftware(this.value)" />
+    <span class="search-icon">🔍</span>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-tab" onclick="setFilter('print', this)">Printing</button>
+    <button class="filter-tab" onclick="setFilter('business', this)">Business</button>
+    <button class="filter-tab" onclick="setFilter('utility', this)">Utility</button>
+    <button class="filter-tab" onclick="setFilter('design', this)">Design</button>
+    <button class="filter-tab" onclick="setFilter('coming', this)">Coming Soon</button>
+  </div>
+
+  <div class="software-grid" id="softwareGrid">
+
+    <!-- PRINTECH -->
+    <div class="software-card" data-cat="print">
+      <div class="card-header">
+        <div class="card-icon blue">🖨</div>
+        <div class="card-meta">
+          <div class="card-name">Printech Suite</div>
+          <div class="card-category">Printing Software</div>
+        </div>
+        <span class="badge badge-free">Free</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Complete print management solution. Handle invoices, labels, barcodes and more with one powerful tool.</p>
+        <div class="card-features">
+          <span class="feature-tag">Label Design</span>
+          <span class="feature-tag">Barcode</span>
+          <span class="feature-tag">Invoice</span>
+          <span class="feature-tag">Bulk Print</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Size: <span>48 MB</span> · Win/Mac</div>
+        <a href="#" class="download-btn" onclick="handleDownload('Printech Suite')">⬇ Download</a>
+      </div>
+    </div>
+
+    <!-- NEELIX ERP -->
+    <div class="software-card" data-cat="business">
+      <div class="card-header">
+        <div class="card-icon purple">📊</div>
+        <div class="card-meta">
+          <div class="card-name">Neelix ERP</div>
+          <div class="card-category">Business Management</div>
+        </div>
+        <span class="badge badge-new">New</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Manage your entire business — inventory, billing, staff, and analytics — from one unified dashboard.</p>
+        <div class="card-features">
+          <span class="feature-tag">Inventory</span>
+          <span class="feature-tag">GST Billing</span>
+          <span class="feature-tag">HR Module</span>
+          <span class="feature-tag">Reports</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Size: <span>120 MB</span> · Win</div>
+        <a href="#" class="download-btn" onclick="handleDownload('Neelix ERP')">⬇ Download</a>
+      </div>
+    </div>
+
+    <!-- INVOICE PRO -->
+    <div class="software-card" data-cat="business">
+      <div class="card-header">
+        <div class="card-icon cyan">🧾</div>
+        <div class="card-meta">
+          <div class="card-name">Invoice Pro</div>
+          <div class="card-category">Billing & Invoicing</div>
+        </div>
+        <span class="badge badge-free">Free</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Create, send and track professional GST invoices in seconds. Supports all Indian tax formats.</p>
+        <div class="card-features">
+          <span class="feature-tag">GST Ready</span>
+          <span class="feature-tag">PDF Export</span>
+          <span class="feature-tag">WhatsApp Share</span>
+          <span class="feature-tag">Ledger</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Size: <span>32 MB</span> · Win/Mac</div>
+        <a href="#" class="download-btn" onclick="handleDownload('Invoice Pro')">⬇ Download</a>
+      </div>
+    </div>
+
+    <!-- STOCK MANAGER -->
+    <div class="software-card" data-cat="business">
+      <div class="card-header">
+        <div class="card-icon orange">📦</div>
+        <div class="card-meta">
+          <div class="card-name">Stock Manager</div>
+          <div class="card-category">Inventory Control</div>
+        </div>
+        <span class="badge badge-pro">Pro</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Real-time stock tracking, low-stock alerts, and supplier management for retail and wholesale.</p>
+        <div class="card-features">
+          <span class="feature-tag">Real-time</span>
+          <span class="feature-tag">Alerts</span>
+          <span class="feature-tag">Supplier DB</span>
+          <span class="feature-tag">Export CSV</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Size: <span>56 MB</span> · Win</div>
+        <a href="#" class="download-btn" onclick="handleDownload('Stock Manager')">⬇ Download</a>
+      </div>
+    </div>
+
+    <!-- LABEL DESIGNER -->
+    <div class="software-card" data-cat="design print">
+      <div class="card-header">
+        <div class="card-icon green">🎨</div>
+        <div class="card-meta">
+          <div class="card-name">Label Designer</div>
+          <div class="card-category">Design & Print</div>
+        </div>
+        <span class="badge badge-free">Free</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Drag-and-drop label maker with 200+ templates. Perfect for products, packaging and logistics.</p>
+        <div class="card-features">
+          <span class="feature-tag">200+ Templates</span>
+          <span class="feature-tag">QR Code</span>
+          <span class="feature-tag">Custom Size</span>
+          <span class="feature-tag">Batch Export</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Size: <span>28 MB</span> · Win/Mac</div>
+        <a href="#" class="download-btn" onclick="handleDownload('Label Designer')">⬇ Download</a>
+      </div>
+    </div>
+
+    <!-- FILE CONVERTER -->
+    <div class="software-card" data-cat="utility">
+      <div class="card-header">
+        <div class="card-icon pink">🔄</div>
+        <div class="card-meta">
+          <div class="card-name">File Converter</div>
+          <div class="card-category">Utility</div>
+        </div>
+        <span class="badge badge-free">Free</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Convert between 50+ file formats — PDF, Word, Excel, images and more — offline and instant.</p>
+        <div class="card-features">
+          <span class="feature-tag">Offline</span>
+          <span class="feature-tag">50+ Formats</span>
+          <span class="feature-tag">Batch Convert</span>
+          <span class="feature-tag">No Upload</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Size: <span>22 MB</span> · Win/Mac</div>
+        <a href="#" class="download-btn" onclick="handleDownload('File Converter')">⬇ Download</a>
+      </div>
+    </div>
+
+    <!-- PAYROLL MANAGER - COMING SOON -->
+    <div class="software-card" data-cat="coming business">
+      <div class="card-header">
+        <div class="card-icon blue">💰</div>
+        <div class="card-meta">
+          <div class="card-name">Payroll Manager</div>
+          <div class="card-category">HR & Finance</div>
+        </div>
+        <span class="badge badge-soon">Coming Soon</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Automated payroll, attendance tracking, PF/ESI calculations and salary slips in one click.</p>
+        <div class="card-features">
+          <span class="feature-tag">Auto Salary</span>
+          <span class="feature-tag">Attendance</span>
+          <span class="feature-tag">PF / ESI</span>
+          <span class="feature-tag">Slip PDF</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Estimated: <span>Q3 2025</span></div>
+        <button class="download-btn disabled">🔔 Notify Me</button>
+      </div>
+    </div>
+
+    <!-- POS SYSTEM - COMING SOON -->
+    <div class="software-card" data-cat="coming business">
+      <div class="card-header">
+        <div class="card-icon purple">🏪</div>
+        <div class="card-meta">
+          <div class="card-name">POS System</div>
+          <div class="card-category">Point of Sale</div>
+        </div>
+        <span class="badge badge-soon">Coming Soon</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Complete retail billing system with touchscreen UI, receipt printing, and daily reports.</p>
+        <div class="card-features">
+          <span class="feature-tag">Touch UI</span>
+          <span class="feature-tag">Receipt Print</span>
+          <span class="feature-tag">Daily Report</span>
+          <span class="feature-tag">Offline Mode</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Estimated: <span>Q4 2025</span></div>
+        <button class="download-btn disabled">🔔 Notify Me</button>
+      </div>
+    </div>
+
+    <!-- CAD LITE - COMING SOON -->
+    <div class="software-card" data-cat="coming design">
+      <div class="card-header">
+        <div class="card-icon cyan">📐</div>
+        <div class="card-meta">
+          <div class="card-name">DesignCAD Lite</div>
+          <div class="card-category">Design Tool</div>
+        </div>
+        <span class="badge badge-soon">Coming Soon</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Lightweight CAD and layout designer for printing shops and small-scale manufacturers.</p>
+        <div class="card-features">
+          <span class="feature-tag">Vector Tools</span>
+          <span class="feature-tag">Print Ready</span>
+          <span class="feature-tag">DXF Export</span>
+          <span class="feature-tag">Templates</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-size">Estimated: <span>2026</span></div>
+        <button class="download-btn disabled">🔔 Notify Me</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-header">
+    <span class="section-tag">Why Neelix</span>
+    <h2 class="section-title">Built for <span class="grad">Real Work</span></h2>
+    <p class="section-desc">Every tool we build solves real problems for real businesses.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Lightning Fast</h3>
+      <p>Optimized for low-end machines. Works smoothly even on older Windows systems with minimal RAM.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>100% Offline</h3>
+      <p>Your data stays on your machine. No internet required, no cloud storage, no subscriptions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🇮🇳</div>
+      <h3>India-Ready</h3>
+      <p>GST, Hindi UI support, Indian date formats, and local business practices built-in from day one.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛠</div>
+      <h3>Easy Setup</h3>
+      <p>Single-click installer, no technical knowledge required. Running in under 2 minutes.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔄</div>
+      <h3>Free Updates</h3>
+      <p>All software updates are free forever. We keep improving based on your feedback.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <h3>WhatsApp Support</h3>
+      <p>Get direct support on WhatsApp in Hindi or English. Quick, friendly, and reliable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / NOTIFY -->
+<section class="cta-section" id="contact">
+  <div class="cta-box">
+    <h2>Stay Updated with <span class="grad">Neelix</span></h2>
+    <p>Get notified when new software launches, updates drop, or special offers go live.</p>
+    <div class="cta-form">
+      <input type="email" class="cta-input" placeholder="Your email or WhatsApp number" />
+      <button class="btn-primary" onclick="handleNotify()">🔔 Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">NEELIX</div>
+  <ul class="footer-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#software">Software</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Neelix. Innovate. Build. Elevate.</div>
+</footer>
+
+<!-- TOAST -->
+<div id="toast" style="
+  position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+  background: linear-gradient(135deg, #2563EB, #7C3AED);
+  color: #fff; padding: 14px 24px; border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  box-shadow: 0 8px 30px rgba(37,99,235,0.4);
+  transform: translateY(80px); opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+  pointer-events: none;
+">Download starting... ✅</div>
+
+<script>
+  function handleDownload(name) {
+    showToast(`Downloading ${name}... ✅`);
+  }
+
+  function handleNotify() {
+    showToast('You\'ll be notified for new releases! 🔔');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.transform = 'translateY(0)';
+    t.style.opacity = '1';
+    setTimeout(() => {
+      t.style.transform = 'translateY(80px)';
+      t.style.opacity = '0';
+    }, 3000);
+  }
+
+  let currentFilter = 'all';
+
+  function setFilter(cat, btn) {
+    currentFilter = cat;
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters(document.querySelector('.search-input').value);
+  }
+
+  function filterSoftware(q) {
+    applyFilters(q);
+  }
+
+  function applyFilters(q) {
+    const query = q.toLowerCase();
+    document.querySelectorAll('.software-card').forEach(card => {
+      const cat = card.dataset.cat || '';
+      const text = card.innerText.toLowerCase();
+      const catMatch = currentFilter === 'all' || cat.includes(currentFilter);
+      const textMatch = !query || text.includes(query);
+      card.style.display = (catMatch && textMatch) ? '' : 'none';
+    });
+  }
+
+  // Animate cards on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.animation = `fadeUp 0.5s ${i * 0.07}s ease both`;
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.software-card, .feature-card').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
